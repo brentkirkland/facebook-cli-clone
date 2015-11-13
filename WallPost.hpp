@@ -31,6 +31,8 @@ public:
     WallPost(string p, time_t t, string u)
     :post(p), timeNow(t), username(u) {};
     
+    WallPost(const WallPost& other): post(other.post), timeNow(other.timeNow), username(other.username) {};
+    
     string getPost() const;
     time_t getTime() const;
     string getUsername() const;
