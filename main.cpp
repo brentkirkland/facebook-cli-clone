@@ -186,7 +186,7 @@ int main(int argc, const char * argv[]) {
         }
         
     }
-    dpn->writeList("users.txt");
+    //dpn->writeList("users.txt");
     
     //to hold value of current user
     User current;
@@ -911,6 +911,11 @@ int main(int argc, const char * argv[]) {
                                 break;
                             }
                         }
+                        
+                        delete q;
+                        delete d;
+                        delete[] visted;
+                        
                         break;
                         
                     }
@@ -1002,9 +1007,14 @@ int main(int argc, const char * argv[]) {
                             cout << "Oops... jk no one has 3 degrees" << endl;
                             break;
                         }
-                    }
+                        delete q;
+                        delete d;
+                        delete [] visted;
                         break;
+                    }
+                        
                 }
+                
                 break;
             }
 
