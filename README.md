@@ -1,4 +1,4 @@
-# CS130A_assignment_2
+# CS130A_assignment_3
 
 The Del Playa Network. Assignment 2 for CS130A Fall 2015. Written by Brent Kirkland (@brent) and Taylor Getty (@tgetty).
 
