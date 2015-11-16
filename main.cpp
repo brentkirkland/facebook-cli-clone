@@ -937,7 +937,7 @@ int main(int argc, const char * argv[]) {
                         
                         bool *visted = new bool[graphsize];
                         
-                        for (int i = 0; i < sizeof(visted)/sizeof(bool); i++) {
+                        for (int i = 0; i < graphsize; i++) {
                             visted[i] = false;
                         }
                         
