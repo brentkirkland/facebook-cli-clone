@@ -160,20 +160,26 @@ int main(int argc, const char * argv[]) {
         
         for (int user = 0; user < dpn->friendgraph->getGraphSize(); user++) {
             
-            string usertoaddto = dpn->friendgraph->friendgraph->get(user).get(0);
-            int randomcount = 0;
-            while (randomcount < 100) {
+            LinkedList<string> us = dpn->friendgraph->friendgraph->get(user);
+            string usertoaddto = us.get(0);
+            //int randomcount = 0;
+            
+            while (us.getSize() < 70) {
                 int random = rand() % 10000;
                 
-                string useradding = dpn->friendgraph->friendgraph->get(random).get(0);
+                us = dpn->friendgraph->friendgraph->get(user);
                 
-                LinkedList<string> tmp = dpn->friendgraph->friendgraph->get(user);
-                
-                if (usertoaddto != useradding) {
-                    randomcount++;
-                    dpn->friendgraph->addFriend(usertoaddto, useradding);
-                    cout<< "Current adding: " + usertoaddto + " to: " + useradding << endl;
+                LinkedList<string> useradding = dpn->friendgraph->friendgraph->get(random);
+//                
+//                LinkedList<string> tmp = dpn->friendgraph->friendgraph->get(user);
+//                
+                if (useradding.getSize() < 100 && useradding.get(0) != usertoaddto) {
+//                    randomcount++;
+                    dpn->friendgraph->addFriend(usertoaddto, useradding.get(0));
+                    cout<< "Current adding: " + usertoaddto + " to: " + useradding.get(0) << endl;
                 }
+                
+                
                 
             }
             
@@ -221,7 +227,7 @@ int main(int argc, const char * argv[]) {
                 } else {
                     dpn->friendgraph->addVertice(current.getUsername());
                     dpn->addUser(current);
-                    dpn->writeList("users.txt");
+                    //dpn->writeList("users.txt");
                     
                     std::cout << "\nSuccessful user creation!\n";
                     goto start;
@@ -252,6 +258,8 @@ int main(int argc, const char * argv[]) {
             }
             case 3:
             {
+                cout << "Saving file..." << endl;
+                dpn->writeList("users.txt");
                 run = false;
                 break;
             }
@@ -270,7 +278,7 @@ int main(int argc, const char * argv[]) {
                     std::cout << "\nOops! You have no wallpost :(\n";
                 }
                 //std::cout << "\nEnter desired command number:\n> 1 - ADD A POST\n> 2 - EDIT STUFF\n> 3 - LOGOUT\n> 3 - LOGOUT\n> 4 - SEARCH FOR USERS\n> 5 - VIEW/ACCEPT PENDING FRIEND REQUEST"<< endl;
-                std::cout << "\nEnter desired command number:\n> 1 - ADD A POST\n> 2 - DELETE A POST\n> 3 - ADD A REPONSE\n> 4 - DELETE A RESPONSE\n> 5 - SEARCH FOR USERS\n> 6 - VIEW/ACCEPT PENDING FRIEND REQUEST\n> 7 - EDIT PROFILE\n> 8 - LOGOUT \n\n(If you don't see the response from a previous command, be sure to scroll up as the menu resets after every command is complete.)\n"<< endl;
+                std::cout << "\nEnter desired command number:\n> 1 - ADD A POST\n> 2 - DELETE A POST\n> 3 - ADD A REPONSE\n> 4 - DELETE A RESPONSE\n> 5 - SEARCH FOR USERS\n> 6 - VIEW/ACCEPT PENDING FRIEND REQUEST\n> 7 - EDIT PROFILE\n> 8 - LOGOUT \n> 9 - FIND THE DEGREE AND PATH TO A SPECIFIC USER\n> 10 - FIND ALL PEOPLE WITH 3 DEGREE OF SEPERATION\n\n(If you don't see the response from a previous command, be sure to scroll up as the menu resets after every command is complete.)\n"<< endl;
                 
                 
                 int profile_input;
@@ -288,7 +296,7 @@ int main(int argc, const char * argv[]) {
                         
                         current.addPost(*new WallPost(post, current.getUsername()));
                                     
-                        dpn->writeList("users.txt");
+                        //dpn->writeList("users.txt");
                         break;
                     }
                     //edit user (not there yet)
@@ -318,7 +326,7 @@ int main(int argc, const char * argv[]) {
                                 
                                 dpn->addUser(current);
                                 
-                                dpn->writeList("users.txt");
+                                //dpn->writeList("users.txt");
                                 
                                 break;
                             }
@@ -333,7 +341,7 @@ int main(int argc, const char * argv[]) {
                                 getline(cin, password);
                                 current.editPassword(password);
                                 dpn->addUser(current);
-                                dpn->writeList("users.txt");
+                                //dpn->writeList("users.txt");
                                 break;
                             }
                             case 2:
@@ -344,7 +352,7 @@ int main(int argc, const char * argv[]) {
                                 getline(cin, city);
                                 current.editCity(city);
                                 dpn->addUser(current);
-                                dpn->writeList("users.txt");
+                                //dpn->writeList("users.txt");
                                 break;
                             }
                             case 3:
@@ -356,7 +364,7 @@ int main(int argc, const char * argv[]) {
                                 cin.ignore (std::numeric_limits<std::streamsize>::max(), '\n');
                                 current.deletePost(postnumber - 1);
                                 dpn->addUser(current);
-                                dpn->writeList("users.txt");
+                                //dpn->writeList("users.txt");
                                 
                                 break;
                             }
@@ -383,7 +391,7 @@ int main(int argc, const char * argv[]) {
                                     
                                     if (friendnumber > 0) {
                                         dpn->friendgraph->deleteFriend(current.getUsername(), friends.get(friendnumber));
-                                        dpn->writeList("users.txt");
+                                        //dpn->writeList("users.txt");
                                     }
                                     break;
                                     
@@ -448,6 +456,7 @@ int main(int argc, const char * argv[]) {
                     case 8:
                     {
                         std::cout << "\nYou have been successfully logged out.\n" << endl;
+                        dpn->writeList("users.txt");
                         goto start;
                         break;
                     }
@@ -531,7 +540,7 @@ int main(int argc, const char * argv[]) {
                                                 
                                                 person.addPost(*new WallPost(post, current.getUsername()));
                                                 
-                                                dpn->writeList("users.txt");
+                                                //dpn->writeList("users.txt");
                                                 goto friendprof;
                                             }
                                             //DELETE ONE OF YOUR POST
@@ -542,7 +551,7 @@ int main(int argc, const char * argv[]) {
                                                 cin.ignore (std::numeric_limits<std::streamsize>::max(), '\n');
                                                 
                                                 if(person.getWallPointer()->deletePost(current.getUsername(), postdelete - 1)){
-                                                    dpn->writeList("users.txt");
+                                                    //dpn->writeList("users.txt");
                                                     cout << "\nPost deleted.\n";
                                                 } else{
                                                     cout << "\nPost does not belong to you.\n";
@@ -569,7 +578,7 @@ int main(int argc, const char * argv[]) {
                                                 
                                                 person.getWallPointer()->returnPosts()->set(pcn - 1, x);
                                                 
-                                                dpn->writeList("users.txt");
+                                                //dpn->writeList("users.txt");
                                                 
                                                 goto friendprof;
                                             }
@@ -602,7 +611,7 @@ int main(int argc, const char * argv[]) {
                                                     std::cout << "Comment deleted." << std::endl;
                                                     
                                                     
-                                                    dpn->writeList("users.txt");
+                                                    //dpn->writeList("users.txt");
                                                     
                                                     
                                                     goto friendprof;
@@ -622,7 +631,7 @@ int main(int argc, const char * argv[]) {
                                                 
                                                 if (answer == "YES") {
                                                     dpn->friendgraph->deleteFriend(current.getUsername(), person.getUsername());
-                                                    dpn->writeList("users.txt");
+                                                    //dpn->writeList("users.txt");
                                                     
                                                     cout<< "Friend removed./n";
                                                 }
@@ -649,7 +658,7 @@ int main(int argc, const char * argv[]) {
                                         case 1:
                                         {
                                             dpn->friendgraph->addPending(current.getUsername(), person.getUsername());
-                                            dpn->writeList("users.txt");
+                                            //dpn->writeList("users.txt");
                                             
                                             cout<< "A friend request was sent./n";
                                             
@@ -701,7 +710,7 @@ int main(int argc, const char * argv[]) {
                                     q2->insert(q2->getSize(), toremove);
                                 
                                     //i--;
-                                    dpn->writeList("users.txt");
+                                    //dpn->writeList("users.txt");
                                 } else if (answer == "NO"){
                                     dpn->friendgraph->deletePending(pending.get(i), current.getUsername());
                                     dpn->writeList("users.txt");
@@ -714,7 +723,7 @@ int main(int argc, const char * argv[]) {
                         for (int v = 0; v < q2->getSize(); v++) {
                             dpn->friendgraph->addFriend(current.getUsername(), q2->get(v));
                         }
-                        dpn->writeList("users.txt");
+                        //dpn->writeList("users.txt");
                         
                         delete q;
                         delete q2;
@@ -731,7 +740,7 @@ int main(int argc, const char * argv[]) {
                         cin.ignore (std::numeric_limits<std::streamsize>::max(), '\n');
                         current.deletePost(postnumber - 1);
                         dpn->addUser(current);
-                        dpn->writeList("users.txt");
+                        //dpn->writeList("users.txt");
                         
                         break;
                     }
@@ -753,7 +762,7 @@ int main(int argc, const char * argv[]) {
                         
                         current.getWallPointer()->returnPosts()->set(pcn - 1, x);
                         
-                        dpn->writeList("users.txt");
+                        //dpn->writeList("users.txt");
                         break;
                     }
                     //delete a response
@@ -784,7 +793,7 @@ int main(int argc, const char * argv[]) {
                             
                             std::cout << "Comment deleted." << std::endl;
                             
-                            dpn->writeList("users.txt");
+                            //dpn->writeList("users.txt");
                            
                         } else {
                             std::cout << "Comment does not belong to you." << std::endl;
@@ -806,10 +815,10 @@ int main(int argc, const char * argv[]) {
                             }
                         }
                         
-                        bool *visted = new bool[graphsize];
+                        int *visted = new int[graphsize];
                         
-                        for (int i = 0; i < sizeof(visted)/sizeof(bool); i++) {
-                            visted[i] = false;
+                        for (int i = 0; i < graphsize; i++) {
+                            visted[i] = -1;
                         }
                         
                         string person;
@@ -817,13 +826,13 @@ int main(int argc, const char * argv[]) {
                         getline(cin, person);
                         
                         ArrayList<string> *q = new ArrayList<string>();
-                        ArrayList<string> *p = new ArrayList<string>();
+                        //ArrayList<string> *p = new ArrayList<string>();
                         ArrayList<int> *d = new ArrayList<int>();
                         
-                        visted[currentUserPosition] = true;
+                        visted[currentUserPosition] = currentUserPosition;
                         q->insert(q->getSize(), current.getUsername());
                         d->insert(d->getSize(), 0);
-                        p->insert(p->getSize(), current.getUsername());
+                        //p->insert(p->getSize(), current.getUsername());
                         string path = current.getUsername();
                         
                         while (q->getSize() > 0) {
@@ -850,17 +859,20 @@ int main(int argc, const char * argv[]) {
                                     }
                                 }
                                 
-                                if (!visted[edgepos]) {
-                                    visted[edgepos] = true;
+                                //cout << ToString(visted[edgepos]) << endl;
+                                if (visted[edgepos] == -1) {
+                                    
+                                    //cout << "Something" << endl;
+                                    visted[edgepos] = currentNodePos;
                                     q->insert(q->getSize(), dpn->friendgraph->friendgraph->get(currentNodePos).get(i));
                                     int currentDegree = d->get(0) + 1;
                                     
                                     d->insert(d->getSize(), currentDegree);
                                     
-                                    for (int j = 1; j < q->getSize(); j++) {
-                                        path =  path + " -> " + q->get(j);
-                                     }
-                                    p->insert(p->getSize(), path);
+//                                    for (int j = 1; j < q->getSize(); j++) {
+//                                        path =  path + " -> " + q->get(j);
+//                                     }
+//                                    p->insert(p->getSize(), path);
                                     
                                 }
                                 
@@ -868,14 +880,31 @@ int main(int argc, const char * argv[]) {
                             
                             if (q->get(0) == person) {
                                 
-                                cout << person + " is " + ToString(d->get(0)) + " degree(s) from " + current.getUsername() + " via the path: " + p->get(0) << endl;
+                                int pathpos = 0;
+                                
+                                for (int b = 0; b < graphsize; b++) {
+                                    if (dpn->friendgraph->friendgraph->get(b).get(0) == q->get(0)) {
+                                        pathpos = b;
+                                        continue;
+                                    }
+                                }
+                                
+                                //cout << visted[pathpos] << endl;
+                                //cout << person + " is " + ToString(d->get(0)) + " degree(s) from " + current.getUsername() + " via the path: " + p->get(0) << endl;
+                                cout << person + " is " + ToString(d->get(0)) + " degree(s) from " + current.getUsername() + " via the path: " << endl;
+                                
+                                while (dpn->friendgraph->friendgraph->get(pathpos).get(0) != current.getUsername()) {
+                                    cout << dpn->friendgraph->friendgraph->get(visted[pathpos]).get(0) << endl;
+                                    pathpos = visted[pathpos];
+                                }
+                                
                                 break;
                             }
                             
                             
                             q->remove(0);
                             d->remove(0);
-                            p->remove(0);
+                            //p->remove(0);
                             
                             if (q->getSize() == 0) {
                                 cout << "No path found to: " + person << endl;
@@ -914,7 +943,7 @@ int main(int argc, const char * argv[]) {
                         visted[currentUserPosition] = true;
                         q->insert(q->getSize(), current.getUsername());
                         d->insert(d->getSize(), 0);
-                        p->insert(p->getSize(), current.getUsername());
+                        //p->insert(p->getSize(), current.getUsername());
                         string path = current.getUsername();
                         
                         while (q->getSize() > 0) {
@@ -948,10 +977,10 @@ int main(int argc, const char * argv[]) {
                                     
                                     d->insert(d->getSize(), currentDegree);
                                     
-                                    for (int j = 1; j < q->getSize(); j++) {
-                                        path =  path + " -> " + q->get(j);
-                                    }
-                                    p->insert(p->getSize(), path);
+//                                    for (int j = 1; j < q->getSize(); j++) {
+//                                        path =  path + " -> " + q->get(j);
+//                                    }
+//                                    p->insert(p->getSize(), path);
                                     
                                 }
                                 
