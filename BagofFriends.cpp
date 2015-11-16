@@ -81,7 +81,7 @@ void BagofFriends::confirmPending(string requestor, string requestee){
     //brent is requestee
     
     //remove from pending graph
-    this->deletePending(requestor, requestee);
+    //this->deletePending(requestor, requestee);
 
     //add to friend graph
     
@@ -92,19 +92,24 @@ void BagofFriends::confirmPending(string requestor, string requestee){
 }
 
 void BagofFriends::deletePending(string requestor, string requestee){
+    
+    
     for (int i = 0; i < pendingfriendgraph->getSize(); i++) {
-//        if (pendingfriendgraph->get(i).get(0) == requestor){
-//            LinkedList<string> inner = pendingfriendgraph->get(i);
-//            inner.remove(inner.find(requestee));
-//            pendingfriendgraph->set(i, inner);
-//        } else
         
             if (pendingfriendgraph->get(i).get(0) == requestee){
-            LinkedList<string> inner = pendingfriendgraph->get(i);
-            inner.remove(inner.find(requestor));
-            pendingfriendgraph->set(i, inner);
+                LinkedList<string> inner = pendingfriendgraph->get(i);
+                
+//                int x = inner.find(requestor);
+//                int size = inner.getSize();
+                
+                inner.remove(inner.find(requestor));
+                
+                pendingfriendgraph->set(i, inner);
+                
         }
     }
+    
+    //this->addFriend(requestor, requestee);
     
 }
 
@@ -117,14 +122,18 @@ void BagofFriends::addFriend(string requestor, string requestee){
             LinkedList<string> inner = friendgraph->get(i);
             
             if (inner.find(requestee) < 0) {
+                
                 inner.insert(1, requestee);
+                
                 friendgraph->set(i, inner);
+                
             }
             
-            
-        } else if (friendgraph->get(i).get(0) == requestee){
+        }
+        if (friendgraph->get(i).get(0) == requestee){
             LinkedList<string> inner = friendgraph->get(i);
-            if (inner.find(requestee) < 0) {
+            
+            if (inner.find(requestor) < 0) {
                 inner.insert(1, requestor);
                 friendgraph->set(i, inner);
             }
@@ -135,6 +144,55 @@ void BagofFriends::addFriend(string requestor, string requestee){
     
 }
 
+void BagofFriends::deletePendingAndAddFriend(string requestor, string requestee){
+    
+    
+    if (requestor != requestee) {
+        for (int i = 0; i < pendingfriendgraph->getSize(); i++) {
+        
+            if (pendingfriendgraph->get(i).get(0) == requestee){
+                LinkedList<string> inner = pendingfriendgraph->get(i);
+            
+                inner.remove(inner.find(requestor));
+            
+                pendingfriendgraph->set(i, inner);
+            
+            }
+        }
+    
+        for (int i = 0; i < friendgraph->getSize(); i++) {
+            
+            if (friendgraph->get(i).get(0) == requestor){
+                LinkedList<string> inner2 = friendgraph->get(i);
+                
+                if (inner2.find(requestee) < 0) {
+                    
+                    cout << "IM CALLED" << std::endl;
+                    
+                    inner2.insert(1, requestee);
+                    friendgraph->set(i, inner2);
+                }
+                
+            }
+//            if (friendgraph->get(i).get(0) == requestee){
+//                LinkedList<string> inner3 = friendgraph->get(i);
+//                
+//                if (inner3.find(requestor) < 0) {
+//                    
+//                    cout << "IM CALLED 2" << std::endl;
+//                    inner3.insert(1, requestor);
+//                    friendgraph->set(i, inner3);
+//                }
+//            }
+        }
+        
+    }
+    
+    
+    
+    
+}
+
 void BagofFriends::deleteFriend(string requestor, string requestee){
     
     for (int i = 0; i < friendgraph->getSize(); i++) {
@@ -142,12 +200,14 @@ void BagofFriends::deleteFriend(string requestor, string requestee){
             LinkedList<string> inner = friendgraph->get(i);
             inner.remove(inner.find(requestee));
             friendgraph->set(i, inner);
-        } else if (friendgraph->get(i).get(0) == requestee){
+        }
+        if (friendgraph->get(i).get(0) == requestee){
             LinkedList<string> inner = friendgraph->get(i);
             inner.remove(inner.find(requestor));
             friendgraph->set(i, inner);
         }
     }
+    
     
 }
 

@@ -52,6 +52,8 @@ public:
     
     void readWall(string text);
     
+    ArrayList<WallPost> * returnPosts();
+    
     ~Wall() {
         if (posts != NULL){
             delete posts;

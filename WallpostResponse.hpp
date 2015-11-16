@@ -41,7 +41,7 @@ public:
     const string getEntirePost() const;
     
 };
-
+bool operator==(const WallpostResponse& left, const WallpostResponse& right);
 
 #endif /* WallpostResponse_hpp */
 

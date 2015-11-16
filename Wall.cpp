@@ -78,6 +78,10 @@ bool Wall::deletePost(const string username,int pos){
     return false;
 }
 
+ArrayList<WallPost> * Wall::returnPosts(){
+    return posts;
+}
+
 void Wall::readWall(string text) {
     
     string delimiter = "********************** \n\n";
@@ -100,12 +104,46 @@ void Wall::readWall(string text) {
         string post = token.substr(0, pos2);
         token.erase(0, pos2 + post_delimiter.length());
         
+        string commentsplitter = "\n----------------------\n";
+        pos2 = token.find(commentsplitter);
+        
         //convert string to time object
         struct tm tm;
-        strptime(token.c_str(), "%H:%M on %m-%d-%Y", &tm);
+        strptime(token.substr(0, pos2).c_str(), "%H:%M on %m-%d-%Y", &tm);
         time_t t = mktime(&tm);
         
+        commentsplitter = "----------------------\n";
+        pos2 = token.find(commentsplitter);
+        token.erase(0, pos2 + commentsplitter.length());
+        
         WallPost * x = new WallPost(post, t, username);
+        
+        size_t cp = 0;
+        string cs;
+        while ((cp = token.find(commentsplitter)) != string::npos) {
+            
+            string ud = " responded: \n";
+            size_t p2 = token.find(ud);
+            string un = text.substr(0, p2);
+            
+            token.erase(0, p2 + ud.length());
+            
+            string pd = "\nat ";
+            p2 = token.find(pd);
+            string p = token.substr(0, p2);
+            token.erase(0, p2 + pd.length());
+            
+            string ncs = "\n----------------------\n";
+            p2 = token.find(ncs);
+            
+            struct tm tmm;
+            strptime(token.substr(0, p2).c_str(), "%H:%M on %m-%d-%Y", &tmm);
+            time_t tt = mktime(&tmm);
+            
+            x->addComment(un, p, tt);
+            
+            token.erase(0, p2 + ncs.length());
+        }
         
         this->addPost(*x);
         

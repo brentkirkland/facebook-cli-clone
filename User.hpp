@@ -22,14 +22,9 @@ private:
     string password;
     string city;
     Wall *wall;
-    
-    //make array based on size
-    //ArrayList<ArrayList<int>> * friends;
-    
+
     ArrayList<User> * pendingFriends;
     ArrayList<User> * friends;
-    
-    //int friends[];
     
 public:
     

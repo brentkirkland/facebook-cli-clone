@@ -38,6 +38,8 @@ public:
     void addFriend(string requestor, string requestee);
     void deleteFriend(string requestor, string requestee);
     
+    void deletePendingAndAddFriend(string requestor, string requestee);
+    
     LinkedList<string> returnListOfFriends(string username);
     LinkedList<string> returnListOfPendingFriends(string username);
     

@@ -30,6 +30,10 @@ const string WallpostResponse::getEntirePost() const {
     char buff [20];
     string username = "";
     strftime(buff, 20, "%H:%M on %m-%d-%Y", localtime(&timeNow));
-    string x = this->username + " said: \n" + comment + "\nat " + buff +"\n";
+    string x = this->username + " responded: \n" + comment + "\nat " + buff +"\n";
     return x;
+}
+
+bool operator==(const WallpostResponse& left, const WallpostResponse& right){
+    return (left.getComment() == right.getComment() && left.getTime() == right.getTime() && left.getUsername() == right.getUsername());
 }

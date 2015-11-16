@@ -98,15 +98,18 @@ void LinkedList<T>::remove(int pos){
         
     } else {
         
-        for (int i = 0; i < size - 1; i++){
+        for (int i = 0; i < size; i++){
+            
             
             if (pos - 1 == i){
                 
                 SingleNode<T> * t = tmp->next;
-                tmp->next = tmp->next->next;
+                
+                tmp->next = t->next;
+                
                 delete t;
                 size--;
-                return;
+                break;
             }
             
             tmp = tmp->next;
