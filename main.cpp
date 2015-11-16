@@ -937,7 +937,7 @@ int main(int argc, const char * argv[]) {
                         }
                         
                         ArrayList<string> *q = new ArrayList<string>();
-                        ArrayList<string> *p = new ArrayList<string>();
+                        //ArrayList<string> *p = new ArrayList<string>();
                         ArrayList<int> *d = new ArrayList<int>();
                         
                         visted[currentUserPosition] = true;
@@ -995,7 +995,7 @@ int main(int argc, const char * argv[]) {
                             
                             q->remove(0);
                             d->remove(0);
-                            p->remove(0);
+                            //p->remove(0);
                             
                         }
                         if (!td) {
